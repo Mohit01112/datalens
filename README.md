@@ -1,25 +1,33 @@
 # 🔍 DataLens — AI-Powered EDA & Dashboard Generator
 
-An intelligent exploratory data analysis tool that uses **Groq's `openai/gpt-oss-20b`** to decide *what* to analyse, while computing every number from the real data in Python — **zero hallucinated numbers**.
+> **Turn Data Into Insights.**
+
+DataLens is an AI-powered exploratory data analysis (EDA) application built with Streamlit and Groq. It uses **`openai/gpt-oss-20b`** to determine what should be analysed, while Python performs the actual calculations from the uploaded dataset.
+
+**Core principle:** AI decides what to analyse. Python calculates the results.
+
+## 🚀 Live Demo
+
+urlDataLens Live Demohttps://datalens-epg8zxqbkm7bytqm5j3ff7.streamlit.app/
 
 ---
 
 ## ✨ Features
 
-| Feature                        | Description                                                                     |
-| ------------------------------ | ------------------------------------------------------------------------------- |
-| **🤖 Smart Analysis**          | Upload CSV/Excel → AI designs KPIs, charts & insights                           |
-| **🔒 No Hallucinated Numbers** | Every KPI and chart is computed from real data using pandas/Plotly              |
-| **📊 Interactive Charts**      | Dark-themed Plotly charts with zoom, hover, and export                          |
-| **📈 10 Chart Types**          | Bar, line, scatter, histogram, box, pie, heatmap, treemap, sunburst, funnel     |
-| **🔎 Dynamic Filters**         | Sidebar filter widgets are automatically generated from your data               |
-| **📌 KPI Deltas**              | Up/down indicators comparing calculated metrics                                 |
-| **📑 Tabbed Layout**           | Clean organisation: KPIs → Charts → Insights → Code                             |
-| **🔄 Auto-Retry**              | Exponential backoff on transient API errors                                     |
-| **⚡ Analysis Caching**         | Same prompt on the same dataset returns cached results without another API call |
-| **📅 Smart Date Handling**     | Automatically detects date columns and handles time-based visualizations        |
-| **💻 EDA Code Export**         | One-click Python script generation using pandas and matplotlib                  |
-| **🧠 AI Insights**             | Generates meaningful observations based on the dataset profile                  |
+| Feature | Description |
+|---|---|
+| 🤖 **Smart Analysis** | Upload CSV/Excel files and let AI design relevant KPIs, charts, and insights. |
+| 🔒 **No Hallucinated Numbers** | KPIs and chart values are calculated from the actual dataset using Pandas and Plotly. |
+| 📊 **Interactive Charts** | Interactive Plotly visualizations with hover, zoom, and export support. |
+| 📈 **10 Chart Types** | Bar, line, scatter, histogram, box, pie, heatmap, treemap, sunburst, and funnel. |
+| 🔎 **Dynamic Filters** | Automatically generated filters based on dataset columns. |
+| 📌 **KPI Deltas** | Calculated metric comparisons with up/down indicators where applicable. |
+| 📑 **Tabbed Analysis** | Organised views for KPIs, Charts, Insights, and Code. |
+| 🔄 **Auto-Retry** | Exponential backoff for transient API failures. |
+| ⚡ **Analysis Caching** | Reuses analysis results for the same dataset profile and request. |
+| 📅 **Smart Date Handling** | Automatically detects date columns for time-based analysis. |
+| 💻 **EDA Code Export** | Generates downloadable Python EDA code. |
+| 🧠 **AI Insights** | Produces business-oriented observations from the dataset profile. |
 
 ---
 
@@ -27,62 +35,65 @@ An intelligent exploratory data analysis tool that uses **Groq's `openai/gpt-oss
 
 DataLens separates **AI reasoning** from **numerical computation**.
 
-The LLM decides:
+### AI handles
 
-* Which KPIs are useful
-* Which charts should be generated
-* Which columns should be used
-* What insights should be investigated
+- Selecting useful KPIs
+- Selecting appropriate charts
+- Choosing relevant dataset columns
+- Identifying areas that should be investigated for insights
 
-Python performs:
+### Python handles
 
-* Actual calculations
-* KPI computation
-* Data aggregation
-* Chart generation
-* Validation
+- Numerical calculations
+- KPI computation
+- Data aggregation
+- Chart generation
+- Plan validation
 
-This design prevents the LLM from inventing numerical results.
+This architecture helps prevent the AI from inventing numerical results.
 
 ---
 
 ## 🏗️ Architecture
 
 ```text
-                 User
-                   │
-                   ▼
-          Upload CSV / Excel
-                   │
-                   ▼
-          DataLens Data Loader
-                   │
-                   ▼
-            Data Profiling
-             (Pandas)
-                   │
-                   ▼
-        ┌─────────────────────┐
-        │   Groq LLM          │
-        │ openai/gpt-oss-20b  │
-        └──────────┬──────────┘
-                   │
-              Analysis Plan
-                   │
-                   ▼
-          Python Validation
-                   │
-          ┌────────┴────────┐
-          ▼                 ▼
-      KPI Engine       Chart Engine
-       Pandas             Plotly
-          │                 │
-          └────────┬────────┘
-                   ▼
-          Interactive Dashboard
-                   │
-                   ▼
-             AI Insights
+                         User
+                           │
+                           ▼
+                  Upload CSV / Excel
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │   DataLens Loader   │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                  Data Profiling
+                      (Pandas)
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │      Groq LLM       │
+                │ openai/gpt-oss-20b  │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                    Analysis Plan
+                           │
+                           ▼
+                  Python Validation
+                           │
+                    ┌──────┴──────┐
+                    ▼             ▼
+               KPI Engine    Chart Engine
+                 Pandas          Plotly
+                    │             │
+                    └──────┬──────┘
+                           ▼
+                Interactive Dashboard
+                           │
+                           ▼
+                     AI Insights
 ```
 
 ---
@@ -93,7 +104,7 @@ This design prevents the LLM from inventing numerical results.
 datalens/
 │
 ├── app.py
-│   └── Streamlit UI + application orchestration
+│   └── Streamlit UI and application orchestration
 │
 ├── config.py
 │   └── Groq API configuration
@@ -108,20 +119,22 @@ datalens/
 │
 ├── .gitignore
 │
+├── sample_sales_data.csv
+│
 ├── utils/
 │   ├── __init__.py
 │   │
 │   ├── data_loader.py
-│   │   └── File loading, date parsing and data profiling
+│   │   └── File loading, date parsing, and data profiling
 │   │
 │   ├── prompts.py
 │   │   └── AI prompt templates
 │   │
-│   ├── grok_client.py
+│   ├── groq_client.py
 │   │   └── Groq LLM client with retry handling
 │   │
 │   ├── eda_engine.py
-│   │   └── Validation, KPI calculation and chart generation
+│   │   └── Plan validation, KPI calculation, and chart generation
 │   │
 │   └── filters.py
 │       └── Dynamic sidebar filter generation
@@ -136,13 +149,12 @@ datalens/
 
 ---
 
-## 🚀 Local Setup
+## 🚀 Getting Started
 
 ### 1. Clone the repository
 
 ```bash
 git clone <your-repo-url>
-
 cd datalens
 ```
 
@@ -161,9 +173,9 @@ GROQ_API_KEY=your_groq_api_key_here
 GROQ_MODEL=openai/gpt-oss-20b
 ```
 
-**Only the API key and model are stored in `.env`.**
+Only the API key and model are stored in `.env`.
 
-Never commit your `.env` file to GitHub.
+**Never commit your real `.env` file to GitHub.**
 
 ### 4. Run DataLens
 
@@ -171,7 +183,7 @@ Never commit your `.env` file to GitHub.
 streamlit run app.py
 ```
 
-The application will open at:
+The application will be available at:
 
 ```text
 http://localhost:8501
@@ -181,22 +193,24 @@ http://localhost:8501
 
 ## 🔐 Environment Configuration
 
-DataLens requires only two environment variables:
+DataLens uses two environment variables:
 
 ```env
 GROQ_API_KEY=your_groq_api_key_here
 GROQ_MODEL=openai/gpt-oss-20b
 ```
 
-The application loads these values through `config.py`.
+These values are loaded through `config.py`.
 
-The model is **not hard-coded** in the application.
-
-This allows the LLM to be changed later without modifying the source code.
+The model is configured through the environment rather than being hard-coded into the application, allowing it to be changed without modifying the source code.
 
 ---
 
-## 🔒 How "No Hallucinated Numbers" Works
+## 🔒 Preventing Hallucinated Numbers
+
+The most important design principle in DataLens is that the LLM does **not** calculate the numerical results displayed to the user.
+
+### Workflow
 
 ```text
 User Request
@@ -204,39 +218,32 @@ User Request
      ▼
 Build Data Profile
      │
-     │  Pandas
      ▼
 Send Profile to Groq
-     │
      │
      ▼
 AI Returns Analysis Plan
      │
-     │  JSON
      ▼
 Validate Plan
      │
-     ├── Remove invalid columns
+     ├── Validate columns
      ├── Validate chart types
-     └── Validate requested operations
+     └── Validate operations
      │
      ▼
 Compute KPIs
      │
-     │  Pandas
      ▼
 Build Charts
      │
-     │  Plotly
      ▼
 Display Results
 ```
 
-### Key principle
+### Example
 
-**The AI does not calculate the numbers displayed to the user.**
-
-For example, if the dataset contains:
+If the dataset contains:
 
 ```text
 Sales
@@ -245,34 +252,25 @@ Sales
 300
 ```
 
-The LLM may decide:
+The LLM can decide that **Average Sales** is a useful KPI.
 
-```text
-KPI:
-Average Sales
-```
-
-But Python calculates:
+Python then performs the calculation:
 
 ```python
 df["Sales"].mean()
 ```
 
-The resulting value is then displayed by DataLens.
-
-Therefore:
+The calculated result is what DataLens displays.
 
 > **AI decides what to analyse. Python calculates the result.**
 
-This significantly reduces the risk of hallucinated numerical results.
-
 ---
 
-## 🔄 Resilience Features
+## 🔄 Resilience & Reliability
 
 ### Auto-Retry
 
-Transient API failures are handled using exponential backoff.
+Transient API failures are handled using exponential backoff:
 
 ```text
 Attempt 1
@@ -292,29 +290,21 @@ Final attempt
 
 This helps handle temporary API failures and rate limits.
 
----
-
 ### Token Budget Protection
 
-Large dataset profiles are automatically controlled before being sent to the LLM to reduce unnecessary token usage and avoid context-window problems.
-
----
+Large dataset profiles are controlled before being sent to the LLM to reduce unnecessary token usage and context-window problems.
 
 ### Malformed JSON Handling
 
-If the LLM returns an invalid analysis plan, DataLens catches the JSON parsing error and asks the user to retry rather than crashing the application.
-
----
+If the LLM returns an invalid analysis plan, DataLens handles the JSON parsing failure instead of allowing the application to crash.
 
 ### Column Validation
 
-If the AI suggests a column that does not exist in the dataset, DataLens validates the plan and removes the invalid suggestion.
-
----
+AI-generated plans are validated against the uploaded dataset. Suggestions referring to unavailable columns can be removed during validation.
 
 ### Analysis Caching
 
-DataLens caches analysis results using a hash generated from:
+Analysis results can be cached using a combination of:
 
 ```text
 Dataset Profile
@@ -322,15 +312,13 @@ Dataset Profile
 User Request
 ```
 
-If the user submits the same request for the same dataset again, the cached result can be reused without making another LLM request.
+This allows repeated analysis requests for the same dataset and prompt to reuse cached results.
 
 ---
 
 ## 📊 Supported Visualizations
 
-DataLens can generate multiple visualization types depending on the dataset and user request.
-
-### Supported chart types
+DataLens supports 10 visualization types:
 
 1. Bar Chart
 2. Line Chart
@@ -343,15 +331,13 @@ DataLens can generate multiple visualization types depending on the dataset and 
 9. Sunburst
 10. Funnel Chart
 
-The AI selects appropriate visualizations based on the dataset structure and the user's request.
+The AI selects visualizations based on the structure of the dataset and the user's request.
 
 ---
 
 ## 🔎 Dynamic Data Filters
 
-DataLens automatically generates filtering controls based on the uploaded dataset.
-
-For example:
+DataLens automatically generates filtering controls from the uploaded dataset.
 
 ```text
 Dataset
@@ -369,13 +355,13 @@ Dataset
            └── Checkbox
 ```
 
-Filtering the dataset updates the analysis context accordingly.
+Applying filters updates the analysis context accordingly.
 
 ---
 
 ## 📌 KPI Generation
 
-DataLens can automatically identify useful KPI calculations such as:
+DataLens can identify useful KPI calculations such as:
 
 ```text
 Count
@@ -387,15 +373,13 @@ Maximum
 Standard Deviation
 ```
 
-The actual KPI values are always calculated from the DataFrame using Python.
+All KPI values are calculated from the uploaded DataFrame using Python.
 
 ---
 
 ## 💻 EDA Code Generation
 
 DataLens can generate a standalone Python EDA script based on the selected analysis plan.
-
-Example:
 
 ```text
 User Dataset
@@ -417,33 +401,33 @@ The generated script can be downloaded directly from the application.
 
 The Groq API key should **never** be written directly inside Python source files.
 
-Use:
+Use environment variables:
 
 ```env
 GROQ_API_KEY=your_key
 GROQ_MODEL=openai/gpt-oss-20b
 ```
 
-And add `.env` to `.gitignore`:
+Add `.env` to `.gitignore`:
 
 ```gitignore
 .env
 ```
 
-Never upload your real API key to GitHub.
+**Never upload your real API key to GitHub.**
 
 ---
 
 ## ☁️ Deployment
 
-DataLens can be deployed using platforms such as:
+DataLens can be deployed on platforms that support Python and Streamlit, including:
 
-* Streamlit Community Cloud
-* Docker
-* Google Cloud
-* Other cloud platforms supporting Python/Streamlit applications
+- Streamlit Community Cloud
+- Docker
+- Google Cloud
+- Other compatible cloud platforms
 
-For cloud deployment, configure the required environment variables/secrets through the deployment platform rather than committing `.env` to the repository.
+For cloud deployment, configure API keys and other environment variables through the platform's secrets/environment configuration instead of committing `.env` to the repository.
 
 ---
 
@@ -451,40 +435,40 @@ For cloud deployment, configure the required environment variables/secrets throu
 
 ### Frontend
 
-* Streamlit
+- Streamlit
 
 ### AI / LLM
 
-* Groq
-* `openai/gpt-oss-20b`
+- Groq
+- `openai/gpt-oss-20b`
 
 ### Data Processing
 
-* Python
-* Pandas
-* NumPy
+- Python
+- Pandas
+- NumPy
 
 ### Visualization
 
-* Plotly
-* Matplotlib
+- Plotly
+- Matplotlib
 
 ### Configuration
 
-* python-dotenv
+- python-dotenv
 
 ### Development
 
-* Git
-* GitHub
+- Git
+- GitHub
 
 ---
 
 ## 🎯 Project Goal
 
-DataLens is designed to reduce the manual work involved in exploratory data analysis.
+DataLens is designed to reduce the manual effort involved in exploratory data analysis.
 
-Instead of manually performing:
+### Traditional workflow
 
 ```text
 Load Dataset
@@ -502,7 +486,7 @@ Write Visualization Code
 Analyse Results
 ```
 
-DataLens automates the workflow:
+### DataLens workflow
 
 ```text
 Upload Dataset
@@ -518,6 +502,8 @@ KPIs + Charts + Insights
 Interactive Dashboard
 ```
 
+DataLens combines AI-assisted analysis with deterministic Python-based computation to make exploratory data analysis faster and more reproducible.
+
 ---
 
 ## 👨‍💻 Author
@@ -530,4 +516,4 @@ AI & Data Science Engineer
 
 ## 📝 License
 
-This project is licensed under the **MIT 
+This project is licensed under the **MIT License**.
