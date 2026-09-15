@@ -1,0 +1,23 @@
+# ── Environment / Secrets ────────────────────────────────────────
+.env
+.streamlit/secrets.toml
+
+# ── Python ───────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# ── Generated outputs (kept locally, not in repo) ───────────────
+outputs/generated_code/
+outputs/generated_images/
+
+# ── IDE / OS ─────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+.DS_Store
+
+venv/

@@ -530,5 +530,4 @@ AI & Data Science Engineer
 
 ## 📝 License
 
-This project is licensed under the **MIT License**.
-#
+This project is licensed under the **MIT 
